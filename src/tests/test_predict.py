@@ -1,0 +1,31 @@
+# File: src\tests\test_predict.py
+
+"""Tests unitaires pour les fonctions de prédiction de sentiment et conversion d'étoiles."""
+
+from typing import Any
+import pytest
+from unittest import mock
+from machine_learning.predict import predict_sentiment, convert_stars_to_sentiment
+from etl.utils.data_utils import DataUtils
+
+
+def test_convert_stars_to_sentiment() -> None:
+    """Vérifie la conversion des étoiles en sentiment textuel."""
+    assert convert_stars_to_sentiment("1 star") == "Négatif"
+    assert convert_stars_to_sentiment("2 stars") == "Négatif"
+    assert convert_stars_to_sentiment("3 stars") == "Neutre"
+    assert convert_stars_to_sentiment("4 stars") == "Positif"
+    assert convert_stars_to_sentiment("5 stars") == "Positif"
+    with pytest.raises(ValueError):
+        convert_stars_to_sentiment("6 stars")
+
+
+def test_predict_sentiment() -> None:
+    """Vérifie la prédiction de sentiment avec un mock du nettoyage et du modèle."""
+    with mock.patch.object(DataUtils, "clean_text", return_value="This is a clean review.") as mock_clean_text, \
+         mock.patch("machine_learning.predict._model", return_value=[{"label": "5 stars"}]):
+
+        result: dict[str, Any] = predict_sentiment("This is a great product!")
+
+    assert result["sentiment"] == "Positif"
+    assert result["text_clean"] == "This is a clean review."

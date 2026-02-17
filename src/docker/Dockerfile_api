@@ -1,0 +1,27 @@
+# File: src\docker\Dockerfile_api
+
+FROM python:3.10-slim
+
+WORKDIR /app
+
+COPY src/docker/requirements_api.txt .
+
+# Installation de Torch CPU depuis le .whl officiel
+RUN pip install --no-cache-dir -v --index-url https://download.pytorch.org/whl/cpu torch
+
+# Installation des autres dépendances
+RUN pip install --no-cache-dir -v -r requirements_api.txt
+
+COPY .env .env
+COPY src/api ./src/api
+COPY src/machine_learning ./src/machine_learning
+COPY src/etl ./src/etl
+
+ENV PYTHONPATH=/app/src
+
+# Pré-charger le modèle Hugging Face
+RUN python src/machine_learning/preload_model.py
+
+EXPOSE 8000
+
+CMD ["uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "8000"]

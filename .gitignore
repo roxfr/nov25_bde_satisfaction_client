@@ -1,0 +1,90 @@
+# ----------------------------
+# Python bytecode / cache
+# ----------------------------
+__pycache__/
+*.py[cod]
+*.so
+.mypy_cache/
+
+# ----------------------------
+# Virtual environments
+# ----------------------------
+venv/
+.env
+env/
+jwt_token.txt
+
+# ----------------------------
+# Distribution / packaging
+# ----------------------------
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ----------------------------
+# PyInstaller
+# ----------------------------
+*.manifest
+*.spec
+
+# ----------------------------
+# Logs and reports
+# ----------------------------
+pip-log.txt
+pip-delete-this-directory.txt
+*.log
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+
+# ----------------------------
+# Documentation
+# ----------------------------
+docs/_build/
+
+# ----------------------------
+# IDEs / Editors
+# ----------------------------
+.idea/
+.vscode/
+.spyproject/
+*.swp
+*.swo
+
+# ----------------------------
+# Jupyter
+# ----------------------------
+.ipynb_checkpoints/
+
+# ----------------------------
+# Database
+# ----------------------------
+*.db
+*.rdb
+
+# ----------------------------
+# OS-specific
+# ----------------------------
+.DS_Store
+
+# ----------------------------
+# Project-specific data
+# ----------------------------
+src/etl/data/*
+!src/etl/data/.gitkeep

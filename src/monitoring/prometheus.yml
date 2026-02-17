@@ -1,0 +1,17 @@
+# File: src\monitoring\prometheus.yml
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: "node_exporter"
+    static_configs:
+      - targets:
+          - "node_exporter:9100"
+
+  - job_name: "fastapi"
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          - "fastapi:8000"
