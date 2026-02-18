@@ -212,7 +212,7 @@ SofianeDore
    ACCESS_TOKEN_EXPIRE_MINUTES=30
    USERNAME_ADMIN=admin
    # Mot de passe hashé avec bcrypt : admin
-   PASSWORD_ADMIN=$2b$12$mx8IDIBSDmY..jP8i4193emGBuqjDiqsf/Yar3IGfHZ/hBfkzORnu
+   PASSWORD_ADMIN="$2b$12$mx8IDIBSDmY..jP8i4193emGBuqjDiqsf/Yar3IGfHZ/hBfkzORnu"
    ```
 
 ---

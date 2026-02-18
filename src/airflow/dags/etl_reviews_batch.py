@@ -6,49 +6,60 @@ from datetime import datetime
 from typing import Dict, Any
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+from airflow.models.param import Param
 from etl.pipeline.reviews_etl import run_extract, run_transform, run_load
+
 
 default_args: Dict[str, Any] = {
     "owner": "airflow",
     "retries": 1,
 }
 
-# Crée et configure le DAG du pipeline ETL des avis
+def extract_with_params(**context):
+    max_pages = context["params"]["max_pages"]
+
+    return run_extract(
+        data_path="/opt/airflow/etl/data",
+        max_pages=max_pages,
+    )
+
 dag = DAG(
     dag_id="etl_reviews_batch",
     default_args=default_args,
     description="Pipeline ETL Reviews en 3 étapes",
     start_date=datetime(2024, 1, 1),
-    schedule="0 0 */3 * *",  # Toutes les 3 heures
+    schedule="0 0 */3 * *",
     catchup=False,
     tags=["etl", "reviews"],
+    params={
+        "max_pages": Param(
+            1,
+            type="integer",
+            minimum=1,
+            maximum=10,
+            description="Nombre de pages à extraire"
+        )
+    },
 )
 
-# Tâche d'extraction
 extract_task = PythonOperator(
     task_id="extract_reviews",
-    python_callable=run_extract,
-    op_kwargs={
-        "data_path": "/opt/airflow/etl/data",
-        "max_pages": 1
-    },
-    dag=dag
+    python_callable=extract_with_params,
+    dag=dag,
 )
 
-# Tâche de transformation
 transform_task = PythonOperator(
     task_id="transform_reviews",
     python_callable=run_transform,
     op_kwargs={"data_path": "/opt/airflow/etl/data"},
-    dag=dag
+    dag=dag,
 )
 
-# Tâche de chargement
 load_task = PythonOperator(
     task_id="load_reviews",
     python_callable=run_load,
     op_kwargs={"data_path": "/opt/airflow/etl/data"},
-    dag=dag
+    dag=dag,
 )
 
 extract_task >> transform_task >> load_task

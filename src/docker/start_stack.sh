@@ -112,7 +112,7 @@ docker exec -i kibana-satisfaction \
 
 echo "=== Lancement ETL manuel ==="
 docker exec airflow-webserver \
-  bash -c "airflow dags trigger etl_reviews_batch"
+  bash -c "airflow dags trigger etl_reviews_batch --conf '{\"max_pages\": 1}'"
 
 # STATUS FINAL
 echo ""
