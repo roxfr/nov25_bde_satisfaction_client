@@ -103,7 +103,6 @@ La plateforme intègre une couche de monitoring pour suivre le pipeline ETL et l
 > Les indicateurs réellement suivis dans le projet incluent le statut des workflows ETL et la date de dernière exécution.  
 > Grafana et Prometheus permettent de préparer facilement la supervision des ressources et de la disponibilité en production.
 
-
 ---
 
 ## 🏗️ Architecture globale du projet
@@ -204,6 +203,16 @@ SofianeDore
    source venv/bin/activate
    pip install --upgrade pip
    pip install -r requirements.txt
+   ```
+
+### 2.2. Création du fichier .env à la racine du projet
+
+   ```bash
+   SECRET_KEY=my_secret
+   ACCESS_TOKEN_EXPIRE_MINUTES=30
+   USERNAME_ADMIN=admin
+   # Mot de passe hashé avec bcrypt : admin
+   PASSWORD_ADMIN=$2b$12$mx8IDIBSDmY..jP8i4193emGBuqjDiqsf/Yar3IGfHZ/hBfkzORnu
    ```
 
 ---

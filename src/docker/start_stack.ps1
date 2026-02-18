@@ -147,8 +147,7 @@ if (Test-Path $KibanaFile) {
 }
 
 Write-Output "=== Lancement ETL manuel ==="
-docker exec airflow-webserver sh -c `
-  "PYTHONPATH=/opt/airflow python /opt/airflow/etl/main.py --pages 10"
+docker exec airflow-webserver sh -c "airflow dags trigger etl_reviews_batch"
 
 # STATUS FINAL
 Write-Output ""
